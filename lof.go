@@ -1,7 +1,7 @@
 package anomaly
 
 import (
-	// "fmt"
+	"fmt"
 	"math"
 	"sort"
 )
@@ -48,6 +48,8 @@ func LocalOutlierFactor(data []DataPoint) []LOFResult {
 			LofScore:  lof,
 		}
 	}
+	
+	fmt.Println(lofResults)
 
 	return lofResults
 }

@@ -1,6 +1,7 @@
 package anomaly
 
 import (
+	"fmt"
 	"go.k6.io/k6/js/modules"
 )
 
@@ -11,6 +12,7 @@ func init() {
 type Anomaly struct{}
 
 func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
+	fmt.Println(threshold)
 	var anomalies []LOFResult
 
 	lofResults := LocalOutlierFactor(data)
