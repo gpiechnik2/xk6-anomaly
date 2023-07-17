@@ -12,7 +12,6 @@ func init() {
 type Anomaly struct{}
 
 func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
-	fmt.Println(threshold)
 	var anomalies []LOFResult
 
 	lofResults := LocalOutlierFactor(data)
@@ -23,6 +22,7 @@ func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
 	for _, result := range lofResults {
 		if result.LofScore < threshold {
 			anomalies = append(anomalies, result)
+			fmt.Println(result)
 		}
 	}
 

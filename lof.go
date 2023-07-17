@@ -37,16 +37,14 @@ func GetMedianFromLofResults(lofResults []LOFResult) float64 {
 }
 
 func LocalOutlierFactor(data []DataPoint) []LOFResult {
-	lofResults := make([]LOFResult, len(data))
+	var lofResults []LOFResult
 
-	for i, point := range data {
+	for _, point := range data {
 		reachDistances := calculateReachabilityDistances(point, data)
 		lof := calculateLOF(reachDistances)
-
-		lofResults[i] = LOFResult{
-			DataPoint: point,
-			LofScore:  lof,
-		}
+		
+		newLofResult := LOFResult{DataPoint: point, LofScore:  lof}
+		lofResults = append(lofResults, newLofResult)
 	}
 	
 	fmt.Println(lofResults)
