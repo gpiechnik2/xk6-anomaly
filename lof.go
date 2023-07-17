@@ -15,46 +15,7 @@ type DataPoint struct {
 type LOFResult struct {
 	DataPoint
 	LofScore float64
-	Timestamp string
 }
-
-// func main() {
-// 	// Przykładowe dane
-// 	data := []DataPoint{
-// 		{0, 0},
-// 		{1, 0},
-// 		{2, 0},
-// 		{3, 0},
-// 		{2, 0},
-// 		{25, 0},
-//         {120, 0},
-// 		{0, 0},
-// 	}
-
-// 	lofResults := LocalOutlierFactor(data)
-
-// 	stdDev := CalculateStandardDeviation(lofResults)
-// 	medianLofScore := GetMedianFromLofResults(lofResults)
-
-// 	// mean or medianLofScore? 
-// 	threshold :=  medianLofScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
-
-// 	fmt.Println("LOF wyniki:")
-// 	for _, result := range lofResults {
-// 		fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LofScore)
-// 	}
-
-// 	fmt.Printf("\nAnaliza statystyczna:\nOdchylenie standardowe: %.5f\n", stdDev)
-// 	fmt.Printf("Próg wartości odstępstwa: %.5f\n", threshold)
-
-// 	// Sprawdzanie odstępstw na podstawie progu
-// 	fmt.Println("\nOdstępstwa:")
-// 	for _, result := range lofResults {
-// 		if result.LofScore < threshold {
-// 			fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LofScore)
-// 		}
-// 	}
-// }
 
 func GetMedianFromLofResults(lofResults []LOFResult) float64 {
 	var data []float64
@@ -148,27 +109,3 @@ func CalculateStandardDeviation(lofResults []LOFResult) float64 {
 	
 	return stdDev
 }
-
-// func LOFDetection(data []DataPoint, threshold float64) {
-
-// 	// const data = [
-// 		// { x: float64, y: float64, timestamp: string },
-// 		// { x: float64, y: float64, timestamp: string }
-// 	// ]
-
-// 	lofResults := LocalOutlierFactor(data)
-// 	stdDev := CalculateStandardDeviation(lofResults)
-// 	medianLofScore := GetMedianFromLofResults(lofResults)
-// 	threshold :=  medianLofScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
-
-// 	// Sprawdzanie odstępstw na podstawie progu
-// 	fmt.Println("\nOdstępstwa:")
-
-// 	for _, result := range lofResults {
-// 		if result.LofScore < threshold {
-// 			fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LofScore)
-// 		}
-// 	}
-
-// }
-

@@ -12,9 +12,6 @@ func init() {
 type Anomaly struct{}
 
 func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
-
-	fmt.Println(threshold)
-
 	var anomalies []LOFResult
 
 	lofResults := LocalOutlierFactor(data)
