@@ -11,7 +11,10 @@ func init() {
 
 type Anomaly struct{}
 
-func (*Anomaly) Lof(data []DataPoint) []LOFResult {
+func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
+
+	fmt.Println(threshold)
+
 	var anomalies []LOFResult
 
 	lofResults := LocalOutlierFactor(data)
@@ -28,6 +31,11 @@ func (*Anomaly) Lof(data []DataPoint) []LOFResult {
 
 	return anomalies
 }
+
+// TODO
+// func (*Anomaly) OneClassSvm(trainingData []DataPoint, data []DataPoint,  threshold) []OneClassSvmResult {
+// var anomalies []OneClassSvmResult
+// }
 
 
 

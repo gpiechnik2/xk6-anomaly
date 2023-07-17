@@ -7,18 +7,14 @@ import (
 )
 
 type DataPoint struct {
-	X, Y float64
+	X float64
+	Y float64
+	Timestamp string
 }
 
 type LOFResult struct {
 	DataPoint
 	LofScore float64
-	Timestamp string
-}
-
-type Point struct {
-	X float64
-	Y float64
 	Timestamp string
 }
 
@@ -88,8 +84,7 @@ func LocalOutlierFactor(data []DataPoint) []LOFResult {
 
 		lofResults[i] = LOFResult{
 			DataPoint: point,
-			LofScore:  lof,
-			Timestamp: point.Timestamp
+			LofScore:  lof
 		}
 	}
 
@@ -125,11 +120,6 @@ func calculateLOF(reachDistances []float64) float64 {
 	lof /= lrd
 
 	return lof
-
-
-	// 17;51;10
-	// 18;10;01
-	// 02;10;27
 }
 
 func EuclideanDistance(p1, p2 DataPoint) float64 {
