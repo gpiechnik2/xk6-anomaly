@@ -47,8 +47,6 @@ func LocalOutlierFactor(data []DataPoint) []LOFResult {
 		lofResults = append(lofResults, newLofResult)
 	}
 	
-	fmt.Println(lofResults)
-
 	return lofResults
 }
 
