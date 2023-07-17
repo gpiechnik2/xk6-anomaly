@@ -1,5 +1,7 @@
 # xk6-anomaly
 
+Extension in progress!
+
 An xk6 extension for finding anomalies in an automated way from large data sets. The goal of the extension is to be able to detect anomalies easily without the need for third-party tools.
 
 ## Build

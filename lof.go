@@ -5,12 +5,6 @@ import (
 	"sort"
 )
 
-type DataPoint struct {
-	X float64
-	Y float64
-	Timestamp string
-}
-
 type LOFResult struct {
 	X float64
 	Y float64
