@@ -13,7 +13,7 @@ func init() {
 type Anomaly struct{}
 
 func (*Anomaly) Lof(data []DataPoint) {
-	var anomalies []LOFScore
+	var anomalies []LOFResult
 
 	lofResults := LocalOutlierFactor(data)
 	stdDev := CalculateStandardDeviation(lofResults)
