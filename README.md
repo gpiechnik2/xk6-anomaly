@@ -12,7 +12,9 @@ xk6 build --with github.com/gpiechnik2/xk6-anomaly@latest
 
 There are two algorithms in the current version. The first is Local Outlier Factor (lof). The second, on the other hand, is One-Class SVM. Their simplified principle of operation can be found below.
 
-TODO: screen
+![Alghoritms](https://github.com/gpiechnik2/xk6-anomaly/blob/main/images/alghoritms.png)
+
+Image from [there](https://towardsdatascience.com/5-anomaly-detection-algorithms-every-data-scientist-should-know-b36c3605ea16).
 
 ## Example
 
