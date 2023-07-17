@@ -123,6 +123,11 @@ func calculateLOF(reachDistances []float64) float64 {
 	lof /= lrd
 
 	return lof
+
+
+	// 17;51;10
+	// 18;10;01
+	// 02;10;27
 }
 
 func EuclideanDistance(p1, p2 DataPoint) float64 {
