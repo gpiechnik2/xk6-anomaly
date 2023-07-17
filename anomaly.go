@@ -1,10 +1,9 @@
 package anomaly
 
 import (
-	"fmt"
-
-	"anomaly/lof"
+	"xk6-anomaly/alghoritms"
 	"go.k6.io/k6/js/modules"
+	"fmt"
 )
 
 func init() {
@@ -14,56 +13,17 @@ func init() {
 // Httpagg is the k6 extension
 type Anomaly struct{}
 
-type LofWithTimestamp struct {
-	Value float64
-	Timestamp string
-}
+func (*Anomaly) Lof(data []lof.DataPoint) {
+	lofResults := lof.LocalOutlierFactor(data)
+	stdDev := lof.CalculateStandardDeviation(lofResults)
+	medianLOFScore := lof.GetMedianFromLofResults(lofResults)
+	threshold :=  medianLOFScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
 
-
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
-func (*Anomaly) Lof(data float64[], distance int) float64[], nil {
-	anomalies := float64[]
-	samples := lof.GetSamplesFromFloat64s(data)
-	lofGetter := lof.NewLOF(len(data))
-	lofGetter.Train(samples)
-
-	mapping   := lofGetter.GetLOFs(samples, "strict")
-	for sample, factor := range mapping {
-		if factor > distance {
-			anomalies = append(anomalies, sample)
+	fmt.Println("\nOdstępstwa:")
+	for _, result := range lofResults {
+		if result.LOFScore < threshold {
+			fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LOFScore)
 		}
 	}
-
-	return anomalies
 }
 
-func (*Anomaly) LofWithTimestamps(data LofWithTimestamp[], distance int) LofWithTimestamp[], nil {
-	anomalies := LofWithTimestamp[]
-	
-	dataWithoutTimestamp := float64[]
-	for lofWithTimestamp := range data {
-		dataWithoutTimestamp = append(dataWithoutTimestamp, data.Value)
-	}
-
-	samples := lof.GetSamplesFromFloat64s(dataWithoutTimestamp)
-	lofGetter := lof.NewLOF(len(dataWithoutTimestamp))
-	lofGetter.Train(samples)
-	mapping := lofGetter.GetLOFs(samples, "strict")
-
-	for sample, factor := range mapping {
-		if factor > distance {
-			for lofWithTimestamp := range data {
-				if sample.GetPoint()[1] == lofWithTimestamp.Value {
-					anomalies = append(anomalies, lofWithTimestamp)
-				}
-			}
-		}
-	}
-
-	return anomalies
-}
