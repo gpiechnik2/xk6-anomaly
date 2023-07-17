@@ -12,7 +12,7 @@ func init() {
 // Httpagg is the k6 extension
 type Anomaly struct{}
 
-func (*Anomaly) Lof(data []DataPoint) {
+func (*Anomaly) Lof(data []DataPoint) []LOFResult {
 	var anomalies []LOFResult
 
 	lofResults := LocalOutlierFactor(data)
