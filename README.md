@@ -14,6 +14,8 @@ There are two algorithms in the current version. The first is Local Outlier Fact
 
 ![Alghoritms](https://github.com/gpiechnik2/xk6-anomaly/blob/main/images/alghoritms.png)
 
+Image from [there](https://towardsdatascience.com/5-anomaly-detection-algorithms-every-data-scientist-should-know-b36c3605ea16).
+
 ## Example
 
 ### Local Outlier Factor
