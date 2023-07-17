@@ -88,7 +88,7 @@ const anomalies = anomaly.lof(data, 6.4)
 
 If too much data is considered anomalous, reduce the threshold (for example to `0.04`).
 
-### One-Class SVM
+### One-Class SVM (Not working properly)
 
 One-Class SVM is an algorithm used for anomaly detection. It trains on a set of normal data points to define a boundary that encloses the normal class. New data points falling outside this boundary are considered anomalies or novelties.
 

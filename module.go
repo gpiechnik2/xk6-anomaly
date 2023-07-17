@@ -40,7 +40,7 @@ func (*Anomaly) OneClassSvm(trainData []DataPoint, data []DataPoint) []DataPoint
 	}
 
 	ocsvm := NewOneClassSVM(rbfKernel, 0.01)
-	ocsvm.Fit(convertedTrainData, 0.01)
+	ocsvm.Fit(convertedTrainData, 0.9)
 
 	convertedTestData := make([][]float64, len(data))
 	for i, point := range data {
