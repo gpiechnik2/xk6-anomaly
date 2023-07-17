@@ -1,4 +1,4 @@
-# xk6-anomaly
+# xk6-anomaly (Work in progress)
 
 Extension is in progress. Better not to use :-)
 
