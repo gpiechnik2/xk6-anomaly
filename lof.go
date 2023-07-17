@@ -12,7 +12,6 @@ type DataPoint struct {
 }
 
 type LOFResult struct {
-	DataPoint
 	LofScore float64
 }
 
