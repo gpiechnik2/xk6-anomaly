@@ -22,7 +22,7 @@ Image from [there](https://towardsdatascience.com/5-anomaly-detection-algorithms
 
 ### Local Outlier Factor
 
-The Local Outlier Factor (LOF) is an algorithm used for outlier detection in data. It is an unsupervised method that evaluates the degree of atypicality of data points relative to their local neighborhood. The LOF algorithm compares the density of a data point to the density of its neighbors, identifying outlier objects that have a lower density compared to their neighbors. As a result, data points with high LOF values are considered potential anomalies or deviations from the norm in the data. The LOF algorithm is popular in fields such as fraud detection, network monitoring, image analysis, and many others, where detecting unusual observations in data is crucial.
+The Local Outlier Factor (LOF) is an algorithm used for outlier detection in data. It is an unsupervised method that evaluates the degree of atypicality of data points relative to their local neighborhood. The LOF algorithm compares the density of a data point to the density of its neighbors, identifying outlier objects that have a lower density compared to their neighbors. As a result, data points with high LOF values are considered potential anomalies or deviations from the norm in the data.
 
 An example with data only on the X-axis (that is, for response times, among other things):
 
@@ -90,7 +90,7 @@ If too much data is considered anomalous, reduce the threshold (for example to `
 
 ### One-Class SVM
 
-One-Class SVM is an algorithm used for anomaly detection. It trains on a set of normal data points to define a boundary that encloses the normal class. New data points falling outside this boundary are considered anomalies or novelties. It is commonly used in applications like fraud detection and intrusion detection.
+One-Class SVM is an algorithm used for anomaly detection. It trains on a set of normal data points to define a boundary that encloses the normal class. New data points falling outside this boundary are considered anomalies or novelties.
 
 An example with data only on the X-axis (that is, for response times, among other things):
 
