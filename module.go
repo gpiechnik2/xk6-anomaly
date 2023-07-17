@@ -31,35 +31,27 @@ func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
 	return anomalies
 }
 
-func (*Anomaly) OneClassSvm(trainData [][]float64, data []DataPoint,  threshold float64) []DataPoint {
+func (*Anomaly) OneClassSvm(trainData []DataPoint, data []DataPoint, threshold float64) []DataPoint {
 	var anomalies []DataPoint
 	
-	// trainData := [][]float64{
-	// 	{1.0, 2.0},
-	// 	{2.0, 3.0},
-	// 	{3.0, 4.0},
-	// 	{4.0, 5.0},
-	// 	{5.0, 6.0},
-	// }
+	convertedTrainData := make([][]float64, len(trainData))
+	for i, point := range trainData {
+		convertedTrainData[i] = []float64{point.X, point.Y}
+	}
 
 	ocsvm := NewOneClassSVM(rbfKernel, 0.1)
-	ocsvm.Fit(trainData, 0.01)
-
-	// testData := []DataPoint{
-	// 	{X: 6.0, Y: 7.0, Timestamp: "2023-07-17T12:00:00"},
-	// 	{X: 3.0, Y: 4.0, Timestamp: "2023-07-17T12:01:00"},
-	// 	{X: 1.5, Y: 2.5, Timestamp: "2023-07-17T12:02:00"},
-	// }
+	ocsvm.Fit(convertedTrainData, 0.01)
 
 	convertedTestData := make([][]float64, len(data))
 	for i, point := range data {
 		convertedTestData[i] = []float64{point.X, point.Y}
 	}
 
-	for i, instance := range convertedTestData {
-		predicted := ocsvm.Predict(instance)
+	for _, instance := range data {
+		convertedInstance := []float64{instance.X, instance.Y}
+		predicted := ocsvm.Predict(convertedInstance)
 		if predicted != -1 {
-			anomalies = append(anomalies, data[i])
+			anomalies = append(anomalies, instance)
 		}
 	}
 
