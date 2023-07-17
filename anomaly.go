@@ -1,7 +1,6 @@
 package anomaly
 
 import (
-	"xk6-anomaly/alghoritms"
 	"go.k6.io/k6/js/modules"
 	"fmt"
 )
@@ -13,10 +12,10 @@ func init() {
 // Httpagg is the k6 extension
 type Anomaly struct{}
 
-func (*Anomaly) Lof(data []lof.DataPoint) {
-	lofResults := lof.LocalOutlierFactor(data)
-	stdDev := lof.CalculateStandardDeviation(lofResults)
-	medianLOFScore := lof.GetMedianFromLofResults(lofResults)
+func (*Anomaly) Lof(data []DataPoint) {
+	lofResults := LocalOutlierFactor(data)
+	stdDev := CalculateStandardDeviation(lofResults)
+	medianLOFScore := GetMedianFromLofResults(lofResults)
 	threshold :=  medianLOFScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
 
 	fmt.Println("\nOdstępstwa:")

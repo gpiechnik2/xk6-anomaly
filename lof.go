@@ -1,4 +1,4 @@
-package lof
+package anomaly
 
 import (
 	// "fmt"
