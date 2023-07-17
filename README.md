@@ -92,6 +92,8 @@ If too much data is considered anomalous, reduce the threshold (for example to `
 
 One-Class SVM is an algorithm used for anomaly detection. It trains on a set of normal data points to define a boundary that encloses the normal class. New data points falling outside this boundary are considered anomalies or novelties.
 
+Important! This algorithm requires a large (se suggested quantity is minimum of 50) amount of data to train in order to work properly. An example of the correct code can be found in the `examples` directory.
+
 An example with data only on the X-axis (that is, for response times, among other things):
 
 ```javascript
