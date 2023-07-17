@@ -45,7 +45,7 @@ func LocalOutlierFactor(data []DataPoint) []LOFResult {
 
 		lofResults[i] = LOFResult{
 			DataPoint: point,
-			LofScore:  lof
+			LofScore:  lof,
 		}
 	}
 
