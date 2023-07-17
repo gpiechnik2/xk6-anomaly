@@ -38,14 +38,14 @@ type Point struct {
 // 	lofResults := LocalOutlierFactor(data)
 
 // 	stdDev := CalculateStandardDeviation(lofResults)
-// 	medianLOFScore := GetMedianFromLofResults(lofResults)
+// 	medianLofScore := GetMedianFromLofResults(lofResults)
 
-// 	// mean or medianLOFScore? 
-// 	threshold :=  medianLOFScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
+// 	// mean or medianLofScore? 
+// 	threshold :=  medianLofScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
 
 // 	fmt.Println("LOF wyniki:")
 // 	for _, result := range lofResults {
-// 		fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LOFScore)
+// 		fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LofScore)
 // 	}
 
 // 	fmt.Printf("\nAnaliza statystyczna:\nOdchylenie standardowe: %.5f\n", stdDev)
@@ -54,8 +54,8 @@ type Point struct {
 // 	// Sprawdzanie odstępstw na podstawie progu
 // 	fmt.Println("\nOdstępstwa:")
 // 	for _, result := range lofResults {
-// 		if result.LOFScore < threshold {
-// 			fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LOFScore)
+// 		if result.LofScore < threshold {
+// 			fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LofScore)
 // 		}
 // 	}
 // }
@@ -64,7 +64,7 @@ func GetMedianFromLofResults(lofResults []LOFResult) float64 {
 	var data []float64
 
 	for _, result := range lofResults {
-		data = append(data, result.LOFScore)
+		data = append(data, result.LofScore)
 	}
 
 	sort.Float64s(data)
@@ -88,7 +88,7 @@ func LocalOutlierFactor(data []DataPoint) []LOFResult {
 
 		lofResults[i] = LOFResult{
 			DataPoint: point,
-			LOFScore:  lof,
+			LofScore:  lof,
 			Timestamp: point.Timestamp
 		}
 	}
@@ -142,8 +142,8 @@ func CalculateStandardDeviation(lofResults []LOFResult) float64 {
 
 	// mean
 	for i, result := range lofResults {
-		scores[i] = result.LOFScore
-		sum += result.LOFScore
+		scores[i] = result.LofScore
+		sum += result.LofScore
 	}
 	mean := sum / float64(len(lofResults))
 
@@ -168,15 +168,15 @@ func CalculateStandardDeviation(lofResults []LOFResult) float64 {
 
 // 	lofResults := LocalOutlierFactor(data)
 // 	stdDev := CalculateStandardDeviation(lofResults)
-// 	medianLOFScore := GetMedianFromLofResults(lofResults)
-// 	threshold :=  medianLOFScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
+// 	medianLofScore := GetMedianFromLofResults(lofResults)
+// 	threshold :=  medianLofScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
 
 // 	// Sprawdzanie odstępstw na podstawie progu
 // 	fmt.Println("\nOdstępstwa:")
 
 // 	for _, result := range lofResults {
-// 		if result.LOFScore < threshold {
-// 			fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LOFScore)
+// 		if result.LofScore < threshold {
+// 			fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LofScore)
 // 		}
 // 	}
 

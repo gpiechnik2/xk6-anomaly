@@ -20,7 +20,7 @@ func (*Anomaly) Lof(data []DataPoint) []LOFResult {
 	threshold :=  medianLOFScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
 
 	for _, result := range lofResults {
-		if result.LOFScore < threshold {
+		if result.LofScore < threshold {
 			anomalies = append(anomalies, result)
 			// fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LOFScore)
 		}
