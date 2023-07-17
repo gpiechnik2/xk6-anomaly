@@ -13,17 +13,7 @@ func init() {
 type Anomaly struct{}
 
 func (*Anomaly) Lof(data []DataPoint) {
-
-	// 	data := []DataPoint{
-// 		{0, 0},
-// 		{1, 0},
-// 		{2, 0},
-// 		{3, 0},
-// 		{2, 0},
-// 		{25, 0},
-//         {120, 0},
-// 		{0, 0},
-// 	}
+	var anomalies []LOFScore
 
 	lofResults := LocalOutlierFactor(data)
 	stdDev := CalculateStandardDeviation(lofResults)
@@ -33,8 +23,13 @@ func (*Anomaly) Lof(data []DataPoint) {
 	fmt.Println("\nOdstępstwa:")
 	for _, result := range lofResults {
 		if result.LOFScore < threshold {
-			fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LOFScore)
+			anomalies = append(anomalies, result)
+			// fmt.Printf("Punkt (%.5f, %.5f), LOF: %.5f\n", result.X, result.Y, result.LOFScore)
 		}
 	}
+
+	return anomalies
 }
+
+
 

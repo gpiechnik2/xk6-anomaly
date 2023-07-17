@@ -15,7 +15,7 @@ export default function () {
         { x: 12, y: 0, timestamp: "dsadsa"},
     ]
 
-    anomaly.lof(data)
-    // console.log(anomalies)
+    const anomalies = anomaly.lof(data)
+    console.log(anomalies)
 }
 

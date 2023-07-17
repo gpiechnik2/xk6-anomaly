@@ -13,6 +13,7 @@ type DataPoint struct {
 type LOFResult struct {
 	DataPoint
 	LOFScore float64
+	Timestamp string
 }
 
 type Point struct {
