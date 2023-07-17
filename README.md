@@ -1,7 +1,5 @@
 # xk6-anomaly
 
-Extension in progress!
-
 An xk6 extension for finding anomalies in an automated way from large data sets. The goal of the extension is to be able to detect anomalies easily without the need for third-party tools.
 
 ## Build
@@ -36,11 +34,14 @@ TODO
 
 ### TODO
 
+I am aware that depending on the application and technologies involved, not all algorithms will be suitable for a project. Therefore, it is necessary to consider multiple different algorithms in order to choose the one that fits best.
+
+In my plans, I aim to cover the following algorithms.
+
 - [x] Local Outlier Factor
-- [ ] One-Class SVM
+- [x] One-Class SVM
 - [ ] Isolation Forest
 - [ ] Robust Covariance
-- [ ] Examples
 
 ### License
 

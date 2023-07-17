@@ -65,46 +65,6 @@ func (svm *OneClassSVM) Predict(X []float64) int {
 	return -1
 }
 
-// func main() {
-// 	// Przykładowe dane treningowe
-// 	trainData := [][]float64{
-// 		{1.0, 2.0},
-// 		{2.0, 3.0},
-// 		{3.0, 4.0},
-// 		{4.0, 5.0},
-// 		{5.0, 6.0},
-// 	}
-
-// 	// Tworzenie modelu One-Class SVM z jądrem RBF
-// 	ocsvm := NewOneClassSVM(rbfKernel, 0.1)
-
-// 	// Trenowanie modelu
-// 	ocsvm.Fit(trainData, 0.01)
-
-// 	// Dane testowe
-// 	testData := []DataPoint{
-// 		{X: 6.0, Y: 7.0, Timestamp: "2023-07-17T12:00:00"},
-// 		{X: 3.0, Y: 4.0, Timestamp: "2023-07-17T12:01:00"},
-// 		{X: 1.5, Y: 2.5, Timestamp: "2023-07-17T12:02:00"},
-// 	}
-
-// 	// Konwersja danych testowych na format [][]float64
-// 	convertedTestData := make([][]float64, len(testData))
-// 	for i, point := range testData {
-// 		convertedTestData[i] = []float64{point.X, point.Y}
-// 	}
-
-// 	// Klasyfikowanie danych testowych
-// 	for i, instance := range convertedTestData {
-// 		predicted := ocsvm.Predict(instance)
-// 		if predicted == -1 {
-// 			fmt.Printf("Normal data (%s): %+v\n", testData[i].Timestamp, testData[i])
-// 		} else {
-// 			fmt.Printf("Anomaly detected (%s): %+v\n", testData[i].Timestamp, testData[i])
-// 		}
-// 	}
-// }
-
 // RBF (Radial Basis Function) kernel
 func rbfKernel(x, y []float64) float64 {
 	squaredEuclideanDistance := 0.0
