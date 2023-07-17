@@ -1,7 +1,6 @@
 package anomaly
 
 import (
-	"fmt"
 	"math"
 	"sort"
 )
