@@ -2,6 +2,7 @@ package anomaly
 
 import (
 	"math"
+	"sort"
 )
 
 type OneClassSVM struct {
@@ -50,6 +51,23 @@ func (svm *OneClassSVM) Fit(X [][]float64, nu float64) {
 			svm.SupportVectors = append(svm.SupportVectors, X[i])
 		}
 	}
+
+	numSupportVectors := len(svm.SupportVectors)
+	numSupportVectorsInBoundary := int(math.Round(nu * float64(numSupportVectors)))
+	if numSupportVectorsInBoundary == 0 {
+		numSupportVectorsInBoundary = 1
+	}
+
+	// Sort the support vectors by distance from the decision boundary.
+	distancesFromBoundary := make([]float64, numSupportVectors)
+	for i, sv := range svm.SupportVectors {
+		dist := svm.Kernel(sv, sv) - 2*svm.Bias
+		distancesFromBoundary[i] = dist
+	}
+	sort.Float64s(distancesFromBoundary)
+
+	// Set the decision boundary to correspond to the distance from the boundary
+	svm.Bias = distancesFromBoundary[numSupportVectorsInBoundary-1]
 }
 
 func (svm *OneClassSVM) Predict(X []float64) int {
