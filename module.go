@@ -13,6 +13,18 @@ func init() {
 type Anomaly struct{}
 
 func (*Anomaly) Lof(data []DataPoint) {
+
+	// 	data := []DataPoint{
+// 		{0, 0},
+// 		{1, 0},
+// 		{2, 0},
+// 		{3, 0},
+// 		{2, 0},
+// 		{25, 0},
+//         {120, 0},
+// 		{0, 0},
+// 	}
+
 	lofResults := LocalOutlierFactor(data)
 	stdDev := CalculateStandardDeviation(lofResults)
 	medianLOFScore := GetMedianFromLofResults(lofResults)
