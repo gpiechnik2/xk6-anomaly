@@ -12,7 +12,7 @@ type DataPoint struct {
 
 type LOFResult struct {
 	DataPoint
-	LOFScore float64
+	LofScore float64
 	Timestamp string
 }
 
@@ -89,6 +89,7 @@ func LocalOutlierFactor(data []DataPoint) []LOFResult {
 		lofResults[i] = LOFResult{
 			DataPoint: point,
 			LOFScore:  lof,
+			Timestamp: point.Timestamp
 		}
 	}
 

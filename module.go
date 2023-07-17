@@ -9,7 +9,6 @@ func init() {
 	modules.Register("k6/x/anomaly", new(Anomaly))
 }
 
-// Httpagg is the k6 extension
 type Anomaly struct{}
 
 func (*Anomaly) Lof(data []DataPoint) []LOFResult {
@@ -20,7 +19,6 @@ func (*Anomaly) Lof(data []DataPoint) []LOFResult {
 	medianLOFScore := GetMedianFromLofResults(lofResults)
 	threshold :=  medianLOFScore - (1 * stdDev) // Próg jako 2 odchylenia standardowe powyżej średniej
 
-	fmt.Println("\nOdstępstwa:")
 	for _, result := range lofResults {
 		if result.LOFScore < threshold {
 			anomalies = append(anomalies, result)
