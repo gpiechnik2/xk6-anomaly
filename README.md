@@ -20,8 +20,6 @@ Image from [there](https://towardsdatascience.com/5-anomaly-detection-algorithms
 
 ## Example
 
-Domyślnie algorytmy działają na tablicy 2d.
-
 ### Local Outlier Factor
 
 The Local Outlier Factor (LOF) is an algorithm used for outlier detection in data. It is an unsupervised method that evaluates the degree of atypicality of data points relative to their local neighborhood. The LOF algorithm compares the density of a data point to the density of its neighbors, identifying outlier objects that have a lower density compared to their neighbors. As a result, data points with high LOF values are considered potential anomalies or deviations from the norm in the data. The LOF algorithm is popular in fields such as fraud detection, network monitoring, image analysis, and many others, where detecting unusual observations in data is crucial.
