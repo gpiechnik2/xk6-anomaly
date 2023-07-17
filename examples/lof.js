@@ -12,7 +12,10 @@ export default function () {
         { x: 12, y: 0, timestamp: "dsadsa"}
     ]
 
-    const anomalies = anomaly.lof(data, 2)
-    console.log(anomalies)
+    const anomalies = anomaly.lof(data, 1)
+
+    anomalies.forEach(element => {
+        console.log(element.x)
+    });
 }
 
