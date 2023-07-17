@@ -12,6 +12,9 @@ type DataPoint struct {
 }
 
 type LOFResult struct {
+	X float64
+	Y float64
+	Timestamp string
 	LofScore float64
 }
 
@@ -41,7 +44,7 @@ func LocalOutlierFactor(data []DataPoint) []LOFResult {
 		reachDistances := calculateReachabilityDistances(point, data)
 		lof := calculateLOF(reachDistances)
 		
-		newLofResult := LOFResult{DataPoint: point, LofScore:  lof}
+		newLofResult := LOFResult{X: point.X, Y: point.Y, LofScore: lof, Timestamp: point.Timestamp}
 		lofResults = append(lofResults, newLofResult)
 	}
 	
