@@ -13,9 +13,9 @@ type Anomaly struct{}
 func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
 	var anomalies []LOFResult
 
-	// if threshold == nil {
-	// 	threshold = 1
-	// }
+	if threshold == 0.0 {
+		threshold = 1
+	}
 
 	lofResults := LocalOutlierFactor(data)
 	stdDev := CalculateStandardDeviation(lofResults)
@@ -31,7 +31,7 @@ func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
 	return anomalies
 }
 
-func (*Anomaly) OneClassSvm(trainData []DataPoint, data []DataPoint, threshold float64) []DataPoint {
+func (*Anomaly) OneClassSvm(trainData []DataPoint, data []DataPoint) []DataPoint {
 	var anomalies []DataPoint
 	
 	convertedTrainData := make([][]float64, len(trainData))
@@ -39,7 +39,7 @@ func (*Anomaly) OneClassSvm(trainData []DataPoint, data []DataPoint, threshold f
 		convertedTrainData[i] = []float64{point.X, point.Y}
 	}
 
-	ocsvm := NewOneClassSVM(rbfKernel, 0.1)
+	ocsvm := NewOneClassSVM(rbfKernel, 0.01)
 	ocsvm.Fit(convertedTrainData, 0.01)
 
 	convertedTestData := make([][]float64, len(data))
@@ -57,6 +57,3 @@ func (*Anomaly) OneClassSvm(trainData []DataPoint, data []DataPoint, threshold f
 
 	return anomalies
 }
-
-
-
