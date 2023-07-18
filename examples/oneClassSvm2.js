@@ -22,6 +22,5 @@ export default function () {
         console.log(`New anomaly detected. X: ${anomaly.x}, Y: ${anomaly.y}, Timestamp: ${anomaly.timestamp}`)
     })
 
-    // INFO[0000] New anomaly detected. X: 3, Y: 4, Timestamp: 2023-07-17T12:02:00  source=console
-    // INFO[0000] New anomaly detected. X: 1.5, Y: 2.5, Timestamp: 2023-07-17T12:02:00  source=console
+    // INFO[0000] New anomaly detected. X: 6, Y: 7, Timestamp: 2023-07-17T12:02:00  source=console
 }

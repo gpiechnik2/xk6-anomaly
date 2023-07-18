@@ -7,9 +7,11 @@ export default function () {
         { x: 10, y: 14, timestamp: "2023-07-17T12:02:00"},
         { x: 11, y: 9, timestamp: "2023-07-17T12:02:00"},
         { x: 7, y: 10, timestamp: "2023-07-17T12:02:00"},
+        { x: 12, y: 14, timestamp: "2023-07-17T12:02:00"},
+
+        // anomalies
         { x: 323, y: 14, timestamp: "2023-07-17T12:02:00"},
-        { x: 150, y: 9, timestamp: "2023-07-17T12:02:00"},
-        { x: 12, y: 14, timestamp: "2023-07-17T12:02:00"}
+        { x: 150, y: 9, timestamp: "2023-07-17T12:02:00"}
     ]
 
     const anomalies = anomaly.lof(data, 1)
