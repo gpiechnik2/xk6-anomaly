@@ -161,7 +161,3 @@ export default function () {
 ### Future
 
 I am aware that depending on the application and technologies involved, not all algorithms will be suitable for a project. Therefore, it is necessary to consider multiple different algorithms in order to choose the one that fits best.
-
-### License
-
-TODO
