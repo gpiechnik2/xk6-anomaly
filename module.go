@@ -39,17 +39,15 @@ func (*Anomaly) OneClassSvm(trainData []DataPoint, testData []DataPoint) []DataP
 		convertedTrainData[i] = []float64{dp.X, dp.Y}
 	}
 
-	// Tworzenie i dopasowywanie modelu One-Class SVM
 	ocsvm := NewOneClassSVM(rbfKernel)
 	ocsvm.Fit(convertedTrainData)
 
-	// Wykrywanie anomalii w danych testowych
 	for _, dp := range testData {
 		convertedInstance := []float64{dp.X, dp.Y}
 		predicted := ocsvm.Predict(convertedInstance)
 
 		if predicted == -1 {
-			anomalies = append(anomalies, instance)
+			anomalies = append(anomalies, dp)
 		}
 	}
 
