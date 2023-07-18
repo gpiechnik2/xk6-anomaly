@@ -1,6 +1,4 @@
-# xk6-anomaly (Work in progress)
-
-Extension is in progress. Better not to use :-)
+# xk6-anomaly (experimental)
 
 An xk6 extension for finding anomalies in an automated way from large data sets. The goal of the extension is to be able to detect anomalies easily without the need for third-party tools.
 
@@ -36,9 +34,11 @@ export default function () {
         { x: 10, timestamp: "2023-07-17T12:02:00"},
         { x: 11, timestamp: "2023-07-17T12:02:00"},
         { x: 7, timestamp: "2023-07-17T12:02:00"},
+        { x: 12, timestamp: "2023-07-17T12:02:00"},
+
+        // anomalies
         { x: 323, timestamp: "2023-07-17T12:02:00"},
-        { x: 150, timestamp: "2023-07-17T12:02:00"},
-        { x: 12, timestamp: "2023-07-17T12:02:00"}
+        { x: 150, timestamp: "2023-07-17T12:02:00"}
     ]
 
     const anomalies = anomaly.lof(data, 1)
@@ -64,9 +64,11 @@ export default function () {
         { x: 10, y: 14, timestamp: "2023-07-17T12:02:00"},
         { x: 11, y: 9, timestamp: "2023-07-17T12:02:00"},
         { x: 7, y: 10, timestamp: "2023-07-17T12:02:00"},
+        { x: 12, y: 14, timestamp: "2023-07-17T12:02:00"},
+
+        // anomalies
         { x: 323, y: 14, timestamp: "2023-07-17T12:02:00"},
-        { x: 150, y: 9, timestamp: "2023-07-17T12:02:00"},
-        { x: 12, y: 14, timestamp: "2023-07-17T12:02:00"}
+        { x: 150, y: 9, timestamp: "2023-07-17T12:02:00"}
     ]
 
     const anomalies = anomaly.lof(data, 1)
@@ -121,8 +123,7 @@ export default function () {
         console.log(`New anomaly detected. X: ${anomaly.x}, Y: ${anomaly.y}, Timestamp: ${anomaly.timestamp}`)
     })
 
-    // INFO[0000] New anomaly detected. X: 3, Y: 0, Timestamp: 2023-07-17T12:02:00  source=console
-    // INFO[0000] New anomaly detected. X: 1.5, Y: 0, Timestamp: 2023-07-17T12:02:00  source=console
+    // INFO[0000] New anomaly detected. X: 6, Y: 0, Timestamp: 2023-07-17T12:02:00  source=console
 }
 ```
 
@@ -153,21 +154,13 @@ export default function () {
         console.log(`New anomaly detected. X: ${anomaly.x}, Y: ${anomaly.y}, Timestamp: ${anomaly.timestamp}`)
     })
 
-    // INFO[0000] New anomaly detected. X: 3, Y: 4, Timestamp: 2023-07-17T12:02:00  source=console
-    // INFO[0000] New anomaly detected. X: 1.5, Y: 2.5, Timestamp: 2023-07-17T12:02:00  source=console
+    // INFO[0000] New anomaly detected. X: 6, Y: 7, Timestamp: 2023-07-17T12:02:00  source=console
 }
 ```
 
-### TODO
+### Future
 
 I am aware that depending on the application and technologies involved, not all algorithms will be suitable for a project. Therefore, it is necessary to consider multiple different algorithms in order to choose the one that fits best.
-
-In my plans, I aim to cover the following algorithms.
-
-- [x] Local Outlier Factor
-- [x] One-Class SVM
-- [ ] Isolation Forest
-- [ ] Robust Covariance
 
 ### License
 
