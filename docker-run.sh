@@ -11,4 +11,8 @@ fi
 
 IMAGE_NAME=${IMAGE_NAME:="k6-for-anomaly:latest"}
 
-docker run -v $PWD:/scripts -it --rm $IMAGE_NAME run /scripts/$1 ${@:2}
+docker run -v $PWD:/examples -it --rm $IMAGE_NAME run /examples/$1
+
+
+# sudo docker build -t k6-for-anomaly
+# sudo docker run -v /home/figaro/Desktop/k6-extensions/xk6-anomaly/examples:/examples -it --rm k6-for-anomaly:latest run /examples/lof1.js

@@ -20,7 +20,7 @@ export default function () {
         console.log(`New anomaly detected. Value: ${anomaly.value}, Timestamp: ${anomaly.timestamp}, lofScore: ${anomaly.lof_score}`)
     })
 
-    // INFO[0000] New anomaly detected. X: 323, Y: 0, Timestamp: 2023-07-17T12:02:00, lofScore: 0.004032258064516129  source=console
-    // INFO[0000] New anomaly detected. X: 150, Y: 0, Timestamp: 2023-07-17T12:02:00, lofScore: 0.008036739380022962  source=console
+    // INFO[0000] New anomaly detected. Value: 6, Timestamp: 2023-07-17T12:02:00  source=console
+    // INFO[0000] New anomaly detected. Value: 1.5, Timestamp: 2023-07-17T12:02:00  source=console
 }
 

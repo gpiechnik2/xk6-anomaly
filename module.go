@@ -10,7 +10,7 @@ func init() {
 
 type Anomaly struct{}
 
-func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
+func (*Anomaly) Lof(data []float64, threshold float64) []LOFResult {
 	var anomalies []LOFResult
 
 	if threshold == 0.0 {
@@ -31,7 +31,7 @@ func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
 	return anomalies
 }
 
-func (*Anomaly) OneClassSvm(trainData []float64, testData []DataPoint, gammaValue float64) []DataPoint {
+func (*Anomaly) OneClassSvm(trainData []float64, testData []float64, gammaValue float64) []float64 {
 	if gammaValue == 0.0 {
 		gammaValue = 50.0
 	}

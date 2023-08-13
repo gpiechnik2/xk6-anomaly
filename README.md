@@ -22,67 +22,37 @@ Image from [there](https://towardsdatascience.com/5-anomaly-detection-algorithms
 
 The Local Outlier Factor (LOF) is an algorithm used for outlier detection in data. It is an unsupervised method that evaluates the degree of atypicality of data points relative to their local neighborhood. The LOF algorithm compares the density of a data point to the density of its neighbors, identifying outlier objects that have a lower density compared to their neighbors. As a result, data points with high LOF values are considered potential anomalies or deviations from the norm in the data.
 
-An example with data only on the X-axis (that is, for response times, among other things):
+An example:
 
 ```javascript
 import anomaly from 'k6/x/anomaly'
 
 
 export default function () {
-    const data = [
-        { x: 12, timestamp: "2023-07-17T12:02:00"},
-        { x: 10, timestamp: "2023-07-17T12:02:00"},
-        { x: 11, timestamp: "2023-07-17T12:02:00"},
-        { x: 7, timestamp: "2023-07-17T12:02:00"},
-        { x: 12, timestamp: "2023-07-17T12:02:00"},
+    const testData = [
+        { value: 12, timestamp: "2023-07-17T12:02:00"},
+        { value: 10, timestamp: "2023-07-17T12:02:00"},
+        { value: 11, timestamp: "2023-07-17T12:02:00"},
+        { value: 7, timestamp: "2023-07-17T12:02:00"},
+        { value: 12, timestamp: "2023-07-17T12:02:00"},
 
         // anomalies
-        { x: 323, timestamp: "2023-07-17T12:02:00"},
-        { x: 150, timestamp: "2023-07-17T12:02:00"}
+        { value: 323, timestamp: "2023-07-17T12:02:00"},
+        { value: 150, timestamp: "2023-07-17T12:02:00"}
     ]
 
-    const anomalies = anomaly.lof(data, 1)
+    const anomalies = anomaly.lof(testData, 1)
     
     anomalies.forEach(anomaly => {
-        console.log(`New anomaly detected. X: ${anomaly.x}, Y: ${anomaly.y}, Timestamp: ${anomaly.timestamp}, lofScore: ${anomaly.lof_score}`)
+        console.log(`New anomaly detected. Value: ${anomaly.value}, Timestamp: ${anomaly.timestamp}, lofScore: ${anomaly.lof_score}`)
     })
 
-    // INFO[0000] New anomaly detected. X: 323, Y: 0, Timestamp: 2023-07-17T12:02:00, lofScore: 0.004032258064516129  source=console
-    // INFO[0000] New anomaly detected. X: 150, Y: 0, Timestamp: 2023-07-17T12:02:00, lofScore: 0.008036739380022962  source=console
+    // INFO[0000] New anomaly detected. Value: 6, Timestamp: 2023-07-17T12:02:00  source=console
+    // INFO[0000] New anomaly detected. Value: 1.5, Timestamp: 2023-07-17T12:02:00  source=console
 }
 ```
 
-Example for complex data, in which we will want to group data on, among other things, the virtual user used.
-
-```javascript
-import anomaly from 'k6/x/anomaly'
-
-
-export default function () {
-    const data = [
-        { x: 12, y: 10, timestamp: "2023-07-17T12:02:00"},
-        { x: 10, y: 14, timestamp: "2023-07-17T12:02:00"},
-        { x: 11, y: 9, timestamp: "2023-07-17T12:02:00"},
-        { x: 7, y: 10, timestamp: "2023-07-17T12:02:00"},
-        { x: 12, y: 14, timestamp: "2023-07-17T12:02:00"},
-
-        // anomalies
-        { x: 323, y: 14, timestamp: "2023-07-17T12:02:00"},
-        { x: 150, y: 9, timestamp: "2023-07-17T12:02:00"}
-    ]
-
-    const anomalies = anomaly.lof(data, 1)
-
-    anomalies.forEach(anomaly => {
-        console.log(`New anomaly detected. X: ${anomaly.x}, Y: ${anomaly.y}, Timestamp: ${anomaly.timestamp}, lofScore: ${anomaly.lof_score}`)
-    })
-
-    // INFO[0000] New anomaly detected. X: 323, Y: 14, Timestamp: 2023-07-17T12:02:00, lofScore: 0.004031878708778318  source=console
-    // INFO[0000] New anomaly detected. X: 150, Y: 9, Timestamp: 2023-07-17T12:02:00, lofScore: 0.00803434875892064  source=console
-}
-```
-
-Important! The moment we want to increase the threshold (that is, decrease the threshold of acceptable data), the second argument will increase.
+Important! The moment we want to increase the threshold (that is, decrease the threshold of acceptable data), the second argument will increase (in example: 1).
 
 ```javascript
 const anomalies = anomaly.lof(data, 6.4)
@@ -90,73 +60,37 @@ const anomalies = anomaly.lof(data, 6.4)
 
 If too much data is considered anomalous, reduce the threshold (for example to `0.04`).
 
-### One-Class SVM (Not working properly)
+### One-Class SVM
 
 One-Class SVM is an algorithm used for anomaly detection. It trains on a set of normal data points to define a boundary that encloses the normal class. New data points falling outside this boundary are considered anomalies or novelties.
 
 Important! This algorithm requires a large (se suggested quantity is minimum of 50) amount of data to train in order to work properly. An example of the correct code can be found in the `examples` directory.
 
-An example with data only on the X-axis (that is, for response times, among other things):
+An example:
 
 ```javascript
 import anomaly from 'k6/x/anomaly'
 
 
 export default function () {
-    const trainingData = [
-		{x: 1.0},
-		{x: 2.0},
-		{x: 3.0},
-		{x: 4.0},
-		{x: 5.0}
-    ]
-
+    const trainData = [1.0, 2.0, 3.0, 4.0, 5.0]
     const testData = [
-        { x: 6.0, timestamp: "2023-07-17T12:02:00"},
-        { x: 3, timestamp: "2023-07-17T12:02:00"},
-        { x: 1.5, timestamp: "2023-07-17T12:02:00"}
+        { value: 6.0, timestamp: "2023-07-17T12:02:00"},
+        { value: 3, timestamp: "2023-07-17T12:02:00"},
+        { value: 1.5, timestamp: "2023-07-17T12:02:00"}
     ]
 
-    const anomalies = anomaly.oneClassSvm(trainingData, testData)
+    const anomalies = anomaly.oneClassSvm(trainData, testData)
 
     anomalies.forEach(anomaly => {
-        console.log(`New anomaly detected. X: ${anomaly.x}, Y: ${anomaly.y}, Timestamp: ${anomaly.timestamp}`)
+        console.log(`New anomaly detected. Value: ${anomaly.value}, Timestamp: ${anomaly.timestamp}`)
     })
 
     // INFO[0000] New anomaly detected. X: 6, Y: 0, Timestamp: 2023-07-17T12:02:00  source=console
 }
 ```
 
-Example for complex data, in which we will want to group data on, among other things, the virtual user used.
-
-```javascript
-import anomaly from 'k6/x/anomaly'
-
-
-export default function () {
-    const trainingData = [
-		{x: 1.0, y: 2.0},
-		{x: 2.0, y: 3.0},
-		{x: 3.0, y: 4.0},
-		{x: 4.0, y: 5.0},
-		{x: 5.0, y: 6.0}
-    ]
-
-    const testData = [
-        { x: 6.0, y: 7, timestamp: "2023-07-17T12:02:00"},
-        { x: 3, y: 4, timestamp: "2023-07-17T12:02:00"},
-        { x: 1.5, y: 2.5, timestamp: "2023-07-17T12:02:00"}
-    ]
-
-    const anomalies = anomaly.oneClassSvm(trainingData, testData)
-
-    anomalies.forEach(anomaly => {
-        console.log(`New anomaly detected. X: ${anomaly.x}, Y: ${anomaly.y}, Timestamp: ${anomaly.timestamp}`)
-    })
-
-    // INFO[0000] New anomaly detected. X: 6, Y: 7, Timestamp: 2023-07-17T12:02:00  source=console
-}
-```
+Important! The moment we want to increase the threshold (that is, decrease the threshold of acceptable data), the second argument will increase (50 by default).
 
 ### Future
 

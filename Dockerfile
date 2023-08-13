@@ -8,6 +8,7 @@ RUN apk --no-cache add build-base git
 RUN go install go.k6.io/xk6/cmd/xk6@latest
 RUN CGO_ENABLED=1 xk6 build \
     --with github.com/gpiechnik2/xk6-anomaly=. \
+    --replace go.buf.build/grpc/go/prometheus/prometheus=buf.build/gen/go/prometheus/prometheus/protocolbuffers/go@latest --replace go.buf.build/grpc/go/gogo/protobuf=buf.build/gen/go/gogo/protobuf/protocolbuffers/go@latest \
     --output /tmp/k6
 
 # Create image for running your customized k6

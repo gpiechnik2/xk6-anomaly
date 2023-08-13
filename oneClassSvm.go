@@ -52,14 +52,14 @@ func (svm *OneClassSVM) Fit(normalData []float64) {
 	}
 }
 
-func (svm *OneClassSVM) Predict(potentialAnomalies []DataPoint) []DataPoint {
-	var anomalies []DataPoint
+func (svm *OneClassSVM) Predict(potentialAnomalies []float64) []float64 {
+	var anomalies []float64
 
 	for _, dataPoint := range potentialAnomalies {
 		result := -svm.Bias
 
 		for _, sv := range svm.SupportVectors {
-			result += svm.Kernel(sv, dataPoint.Value, svm.Gamma)
+			result += svm.Kernel(sv, dataPoint, svm.Gamma)
 		}
 
 		if result < 0 {
