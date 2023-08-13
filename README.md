@@ -95,7 +95,7 @@ Important! When we want to "sensitize" the algorithm to the anomalies being chec
 
 A real-world usage example can be found at the path `examples/usageExample.js`. In short: upon detecting anomalies based on the collected data, they are sent to the influxDB database. They are tagged with the name of the endpoint where they were found and the name of the algorithm. The used dashboard is located in the `dashboards` directory.
 
-![k6 anomaly detector grafana](https://github.com/gpiechnik2/xk6-anomaly/blob/main/images/jpgk6-anomaly-grafana.jpg)
+![k6 anomaly detector grafana](https://github.com/gpiechnik2/xk6-anomaly/blob/main/images/k6-anomaly-grafana.jpg)
 
 
 ### Future
