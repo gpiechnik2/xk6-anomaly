@@ -6,8 +6,7 @@ import (
 )
 
 type LOFResult struct {
-	X         float64
-	Y         float64
+	Value     float64
 	Timestamp string
 	LofScore  float64
 }
@@ -23,12 +22,9 @@ func GetMedianFromLofResults(lofResults []LOFResult) float64 {
 
 	length := len(data)
 	if length%2 == 1 {
-		median := data[length/2]
-		return median
-	} else {
-		median := (data[length/2-1] + data[length/2]) / 2
-		return median
+		return data[length/2]
 	}
+	return (data[length/2-1] + data[length/2]) / 2
 }
 
 func LocalOutlierFactor(data []DataPoint) []LOFResult {
@@ -38,7 +34,7 @@ func LocalOutlierFactor(data []DataPoint) []LOFResult {
 		reachDistances := CalculateReachabilityDistances(point, data)
 		lof := CalculateLOF(reachDistances)
 
-		newLofResult := LOFResult{X: point.X, Y: point.Y, LofScore: lof, Timestamp: point.Timestamp}
+		newLofResult := LOFResult{Value: point.Value, LofScore: lof, Timestamp: point.Timestamp}
 		lofResults = append(lofResults, newLofResult)
 	}
 
@@ -77,7 +73,7 @@ func CalculateLOF(reachDistances []float64) float64 {
 }
 
 func EuclideanDistance(p1, p2 DataPoint) float64 {
-	return math.Sqrt(math.Pow(p1.X-p2.X, 2) + math.Pow(p1.Y-p2.Y, 2))
+	return math.Abs(p1.Value - p2.Value)
 }
 
 func CalculateStandardDeviation(lofResults []LOFResult) float64 {
@@ -98,7 +94,5 @@ func CalculateStandardDeviation(lofResults []LOFResult) float64 {
 	}
 
 	variance := varianceSum / float64(len(lofResults))
-	stdDev := math.Sqrt(variance)
-
-	return stdDev
+	return math.Sqrt(variance)
 }

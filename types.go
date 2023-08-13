@@ -1,7 +1,6 @@
 package anomaly
 
 type DataPoint struct {
-	X float64
-	Y float64
+	Value     float64
 	Timestamp string
 }

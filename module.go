@@ -18,9 +18,9 @@ func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
 	}
 
 	lofResults := LocalOutlierFactor(data)
+	median := GetMedianFromLofResults(lofResults)
 	stdDev := CalculateStandardDeviation(lofResults)
-	medianLOFScore := GetMedianFromLofResults(lofResults)
-	threshold =  medianLOFScore - (threshold * stdDev) 
+	threshold = median - (threshold * stdDev)
 
 	for _, result := range lofResults {
 		if result.LofScore < threshold {
@@ -31,25 +31,14 @@ func (*Anomaly) Lof(data []DataPoint, threshold float64) []LOFResult {
 	return anomalies
 }
 
-func (*Anomaly) OneClassSvm(trainData []DataPoint, testData []DataPoint) []DataPoint {
-	var anomalies []DataPoint
-	
-	convertedTrainData := make([][]float64, len(trainData))
-	for i, dp := range trainData {
-		convertedTrainData[i] = []float64{dp.X, dp.Y}
+func (*Anomaly) OneClassSvm(trainData []float64, testData []DataPoint, gammaValue float64) []DataPoint {
+	if gammaValue == 0.0 {
+		gammaValue = 50.0
 	}
 
-	ocsvm := NewOneClassSVM(rbfKernel)
-	ocsvm.Fit(convertedTrainData)
-
-	for _, dp := range testData {
-		convertedInstance := []float64{dp.X, dp.Y}
-		predicted := ocsvm.Predict(convertedInstance)
-
-		if predicted == -1 {
-			anomalies = append(anomalies, dp)
-		}
-	}
+	svm := NewOneClassSVM(gammaValue, rbfKernel)
+	svm.Fit(trainData)
+	anomalies := svm.Predict(testData)
 
 	return anomalies
 }

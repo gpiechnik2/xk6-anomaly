@@ -5,71 +5,74 @@ import (
 )
 
 type OneClassSVM struct {
-	SupportVectors [][]float64
+	SupportVectors []float64
 	Bias           float64
-	Kernel         func(x, y []float64) float64
+	Gamma          float64
+	Kernel         func(x, y, gamma float64) float64
 }
 
-func NewOneClassSVM(kernel func(x, y []float64) float64) *OneClassSVM {
+func NewOneClassSVM(gamma float64, kernel func(x, y, gamma float64) float64) *OneClassSVM {
 	return &OneClassSVM{
 		SupportVectors: nil,
 		Bias:           0,
+		Gamma:          gamma,
 		Kernel:         kernel,
 	}
 }
 
-func (svm *OneClassSVM) Fit(X [][]float64) {
-	numSamples := len(X)
+func (svm *OneClassSVM) Fit(normalData []float64) {
+	numSamples := len(normalData)
 
-	// initialization of the gramian matrix
+	// Initialization of the gramian matrix
 	gramMatrix := make([][]float64, numSamples)
 	for i := range gramMatrix {
 		gramMatrix[i] = make([]float64, numSamples)
 	}
 
-	// calculation of the gramian value
+	// Calculation of the gramian value
 	for i := 0; i < numSamples; i++ {
 		for j := 0; j < numSamples; j++ {
-			gramMatrix[i][j] = svm.Kernel(X[i], X[j])
+			gramMatrix[i][j] = svm.Kernel(normalData[i], normalData[j], svm.Gamma)
 		}
 	}
 
-	// calculating the bias value
+	// Calculating the bias value
 	sumAlphas := 0.0
 	for i := 0; i < numSamples; i++ {
 		sumAlphas += gramMatrix[i][i]
 	}
 	svm.Bias = sumAlphas / float64(numSamples)
 
-	// storing support vectors
-	svm.SupportVectors = make([][]float64, 0)
+	// Storing support vectors
+	svm.SupportVectors = make([]float64, 0)
 	for i := 0; i < numSamples; i++ {
 		if gramMatrix[i][i] >= svm.Bias {
-			svm.SupportVectors = append(svm.SupportVectors, X[i])
+			svm.SupportVectors = append(svm.SupportVectors, normalData[i])
 		}
 	}
 }
 
-func (svm *OneClassSVM) Predict(X []float64) int {
-	result := -svm.Bias
+func (svm *OneClassSVM) Predict(potentialAnomalies []DataPoint) []DataPoint {
+	var anomalies []DataPoint
 
-	for _, sv := range svm.SupportVectors {
-		result += svm.Kernel(sv, X)
+	for _, dataPoint := range potentialAnomalies {
+		result := -svm.Bias
+
+		for _, sv := range svm.SupportVectors {
+			result += svm.Kernel(sv, dataPoint.Value, svm.Gamma)
+		}
+
+		if result < 0 {
+			anomalies = append(anomalies, dataPoint)
+		}
 	}
 
-	if result >= 0 {
-		return 1
-	}
-	return -1
+	return anomalies
 }
 
 // RBF (Radial Basis Function) kernel
-func rbfKernel(x, y []float64) float64 {
-	squaredEuclideanDistance := 0.0
-	for i := 0; i < len(x); i++ {
-		diff := x[i] - y[i]
-		squaredEuclideanDistance += diff * diff
-	}
-	gamma := 1.0 / float64(len(x))
+func rbfKernel(x, y, gamma float64) float64 {
+	diff := x - y
+	squaredEuclideanDistance := diff * diff
 	return math.Exp(-gamma * squaredEuclideanDistance)
 }
