@@ -22,43 +22,37 @@ Image from [there](https://towardsdatascience.com/5-anomaly-detection-algorithms
 
 The Local Outlier Factor (LOF) is an algorithm used for outlier detection in data. It is an unsupervised method that evaluates the degree of atypicality of data points relative to their local neighborhood. The LOF algorithm compares the density of a data point to the density of its neighbors, identifying outlier objects that have a lower density compared to their neighbors. As a result, data points with high LOF values are considered potential anomalies or deviations from the norm in the data.
 
-An example:
+Simple example:
 
 ```javascript
 import anomaly from 'k6/x/anomaly'
 
-
 export default function () {
-    const testData = [
-        { value: 12, timestamp: "2023-07-17T12:02:00"},
-        { value: 10, timestamp: "2023-07-17T12:02:00"},
-        { value: 11, timestamp: "2023-07-17T12:02:00"},
-        { value: 7, timestamp: "2023-07-17T12:02:00"},
-        { value: 12, timestamp: "2023-07-17T12:02:00"},
-
-        // anomalies
-        { value: 323, timestamp: "2023-07-17T12:02:00"},
-        { value: 150, timestamp: "2023-07-17T12:02:00"}
+    let anomalies
+    const testData = [ 
+        12, 10, 11, 7, 12,
+        323, 150 // anomalies
     ]
 
-    const anomalies = anomaly.lof(testData, 1)
-    
+    anomalies = anomaly.lof(testData)
     anomalies.forEach(anomaly => {
-        console.log(`New anomaly detected. Value: ${anomaly.value}, Timestamp: ${anomaly.timestamp}, lofScore: ${anomaly.lof_score}`)
+        console.log(`New anomaly detected. Value: ${anomaly.value} lofScore: ${anomaly.lof_score}`)
+
+        // INFO[0000] New anomaly detected. Value: 323 lofScore: 0.004032258064516129  source=console
+        // INFO[0000] New anomaly detected. Value: 150 lofScore: 0.008036739380022962  source=console
     })
 
-    // INFO[0000] New anomaly detected. Value: 6, Timestamp: 2023-07-17T12:02:00  source=console
-    // INFO[0000] New anomaly detected. Value: 1.5, Timestamp: 2023-07-17T12:02:00  source=console
+    // we increased threshold by 1 (by default it is 1.0)
+    anomalies = anomaly.lof(testData, 2)
+    anomalies.forEach(anomaly => {
+        console.log(`New anomaly detected. Value: ${anomaly.value} lofScore: ${anomaly.lof_score}`)
+
+        // INFO[0000] New anomaly detected. Value: 323 lofScore: 0.004032258064516129  source=console
+    })
 }
 ```
 
-Important! The moment we want to increase the threshold (that is, decrease the threshold of acceptable data), the second argument will increase (in example: 1).
-
-```javascript
-const anomalies = anomaly.lof(data, 6.4)
-```
-
-If too much data is considered anomalous, reduce the threshold (for example to `0.04`).
+*Important!* At the moment when we want to "sensitize" the algorithm to the anomalies being checked, we should decrease the value of the 2nd argument in the called lof function (by default, this value is set to 1). When we want to have more acceptable data, we should increase the third value of the function (in the example, increasing the value from 1.0 to 2.0 resulted in ignoring one of the anomalies).
 
 ### One-Class SVM
 
@@ -66,31 +60,42 @@ One-Class SVM is an algorithm used for anomaly detection. It trains on a set of 
 
 Important! This algorithm requires a large (se suggested quantity is minimum of 50) amount of data to train in order to work properly. An example of the correct code can be found in the `examples` directory.
 
-An example:
+Simple example:
 
 ```javascript
 import anomaly from 'k6/x/anomaly'
 
-
 export default function () {
+    let anomalies
     const trainData = [1.0, 2.0, 3.0, 4.0, 5.0]
     const testData = [
-        { value: 6.0, timestamp: "2023-07-17T12:02:00"},
-        { value: 3, timestamp: "2023-07-17T12:02:00"},
-        { value: 1.5, timestamp: "2023-07-17T12:02:00"}
+        3.0, 4,1,
+        6.0, 1.5 // anomalies
     ]
 
-    const anomalies = anomaly.oneClassSvm(trainData, testData)
-
+    anomalies = anomaly.oneClassSvm(trainData, testData)
     anomalies.forEach(anomaly => {
-        console.log(`New anomaly detected. Value: ${anomaly.value}, Timestamp: ${anomaly.timestamp}`)
+        console.log(`New anomaly detected. Value: ${anomaly}`)
+        // INFO[0000] New anomaly detected. Value: 6                source=console
+        // INFO[0000] New anomaly detected. Value: 1.5              source=console
     })
 
-    // INFO[0000] New anomaly detected. X: 6, Y: 0, Timestamp: 2023-07-17T12:02:00  source=console
+    // we decreased threshold by 49 (by default it is 50.0)
+    anomalies = anomaly.oneClassSvm(trainData, testData, 1)
+    anomalies.forEach(anomaly => {
+        console.log(`New anomaly detected. Value: ${anomaly}`)
+        // INFO[0000] New anomaly detected. Value: 6                source=console
+    })
 }
 ```
 
-Important! The moment we want to increase the threshold (that is, decrease the threshold of acceptable data), the second argument will increase (50 by default).
+Important! When we want to "sensitize" the algorithm to the anomalies being checked, we should increase the value of the 3rd argument in the called lof function (by default, this value is set to 50). When we want to have more acceptable data, we should decrease the third value of the function (in the example, we reduced the value from 50 to 1, as a result, the value 1.5 was not considered an anomaly).
+
+## Visualization
+
+A real-world usage example can be found at the path `examples/usageExample.js`. In short: upon detecting anomalies based on the collected data, they are sent to the influxDB database. They are tagged with the name of the endpoint where they were found and the name of the algorithm. The used dashboard is located in the `dashboards` directory.
+
+TODO: grafana
 
 ### Future
 
